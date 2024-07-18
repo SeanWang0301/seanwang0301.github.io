@@ -1,6 +1,4 @@
-# Sean Wang
-
-## FullStack Engineer
+# Sean Wang As A FullStack Engineer
 
 I will keep learning and practicing as a real full stack Engineer. Following notes are related to the courses in codecademy. 
 
@@ -174,3 +172,15 @@ Using Chrome DevTools allows us see the hidden make up of HTML elements which he
 > The z-index property only applies to elements with a position value of relative, absolute, fixed, or sticky, not elements with a position of static. Setting the position value to static will indeed ignore the z-index property, which is why it is the correct answer in this case.
 > 
 > Absolute positioning allows an element to be positioned in relation to the nearest parent element that is not static, which differs from relative positioning. This distinction is key in understanding how elements are positioned on a webpage.
+
+## Styling with CSS
+
+Following content discuss about intermediate topics in CSS and navigation design.
+
+### Color
+
+Using a numeric system allows us to take advantage of the whole spectrum of colors that browsers support. Colors in CSS can be described in three different ways:
+
+- Named colors - English words that describe colors, also called keyword colors.
+- RGB - numeric values that describe a mix of red, green, anb blue
+- HSL - numeric values that describe a mix of hue, saturation, and lightness
