@@ -1,0 +1,35 @@
+staging 
+
+   <!-- Iot configuration. 3506e8d1ee24863ee6fff82473fa1674-->
+    <add key="IotBaseAddress" value="https://staging-env.api.netilion.endress.com.cn" />
+    <add key="IotLinkBaseAddress" value="https://staging-env.netilion.endress.com.cn" />
+    <add key="IotRefreshTokenLimitTimeSpanInSeconds" value="300" />
+    <add key="IotApiKey" value="1419f86bf2e27b56b79b13d3f15eceb5" />
+    <add key="IotApiVersion" value="/v1" />
+
+   
+production
+
+
+    <!-- Iot configuration. 3506e8d1ee24863ee6fff82473fa1674-->
+    <add key="IotBaseAddress" value="https://api.netilion.endress.com.cn" />
+    <add key="IotLinkBaseAddress" value="https://netilion.endress.com.cn" />
+    <add key="IotRefreshTokenLimitTimeSpanInSeconds" value="300" />
+    <add key="IotApiKey" value="8927226e13cc815a5555f61f0cf70bca" />
+    <add key="IotApiVersion" value="/v1" />
+
+
+    <!-- Iot configuration. 3506e8d1ee24863ee6fff82473fa1674-->
+    <add key="IotBaseAddress" value="https://api.netilion.endress.com.cn" />
+    <add key="IotLinkBaseAddress" value="https://netilion.endress.com.cn" />
+    <add key="IotRefreshTokenLimitTimeSpanInSeconds" value="300" />
+    <add key="IotApiKey" value="0d88824fe96e5044aa668d22583ddb3d" />
+    <add key="IotApiVersion" value="/v1" />
+    
+
+    <!-- Iot configuration. 3506e8d1ee24863ee6fff82473fa1674-->
+    <add key="IotBaseAddress" value="https://api.netilion.endress.com.cn" />
+    <add key="IotLinkBaseAddress" value="https://netilion.endress.com.cn" />
+    <add key="IotRefreshTokenLimitTimeSpanInSeconds" value="300" />
+    <add key="IotApiKey" value="0cb2a809d2c1836b9388831aa02b01b7" />
+    <add key="IotApiVersion" value="/v1" />
