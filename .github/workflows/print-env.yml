@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - production/app-one
-env:
-  BRANCH_NAME: $GITHUB_REF_NAME
-  REGION_ID: cn-shanghai
-  REGISTRY: registry.cn-shanghai.aliyuncs.com
 
 jobs:
   build:
@@ -17,24 +13,31 @@ jobs:
     - name: Set up Env
       id: set_env
       run: |
+        # Extract branch name
+        BRANCH_NAME=${GITHUB_REF##*/}
+
+        # Define directory mappings
         declare -A APP_NAMES
         APP_NAMES=(
           ["app-one"]="one"
           ["app-two"]="two"
         )
 
+        # Determine APP_DIR and APP_NAME
         APP_DIR=${BRANCH_NAME#*/}
         APP_NAME=${APP_NAMES[$APP_DIR]}
 
-        echo "REGION_ID=${REGION_ID}" >> $GITHUB_ENV
-        echo "REGISTRY=${REGISTRY}" >> $GITHUB_ENV
+        # Export variables to GitHub Actions environment
+        echo "REGION_ID=cn-shanghai" >> $GITHUB_ENV
+        echo "REGISTRY=registry.cn-shanghai.aliyuncs.com" >> $GITHUB_ENV
+        echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
         echo "APP_DIR=${APP_DIR}" >> $GITHUB_ENV
         echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
 
     - name: Print ENV
       run: |
-        echo "REGION_ID=${env.REGION_ID}"
-        echo "REGISTRY=${env.REGISTRY}"
-        echo "BRANCH_NAME=${env.BRANCH_NAME}"
-        echo "APP_DIR=${env.APP_DIR}"
-        echo "APP_NAME=${env.APP_NAME}"
+        echo "REGION_ID=${{ env.REGION_ID }}"
+        echo "REGISTRY=${{ env.REGISTRY }}"
+        echo "BRANCH_NAME=${{ env.BRANCH_NAME }}"
+        echo "APP_DIR=${{ env.APP_DIR }}"
+        echo "APP_NAME=${{ env.APP_NAME }}"
