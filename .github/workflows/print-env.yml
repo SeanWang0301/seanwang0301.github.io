@@ -1,5 +1,8 @@
 name: Deploy
 
+env: 
+  BRANCH_NAME: $GITHUB_REF_NAME
+
 on:
   push:
     branches:
@@ -13,9 +16,6 @@ jobs:
     - name: Set up Env
       id: set_env
       run: |
-        # Extract branch name and specific part
-        BRANCH_NAME=${GITHUB_REF##*/}
-
         # Define directory mappings
         declare -A APP_NAMES
         APP_NAMES=(
