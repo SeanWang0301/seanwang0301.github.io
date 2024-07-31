@@ -24,4 +24,5 @@ jobs:
       run: |
         echo "${REGION_ID}"
         echo $BRANCH_NAME
+        echo $GITHUB_REF_NAME
     
