@@ -17,10 +17,6 @@ env:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        app: [{ dir: apps/app-one-folder, name: app-one },
-        { dir: apps/app-two-folder, name: app-one }]
     runs-on: ubuntu-latest
 
     steps:
