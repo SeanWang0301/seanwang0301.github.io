@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - production/app-one
+env:
+  BRANCH_NAME: $GITHUB_REF_NAME
 
 jobs:
   build:
@@ -16,7 +18,7 @@ jobs:
         # Define directory mappings
         REGION_ID="cn-shanghai"
         REGISTRY="registry.cn-shanghai.aliyuncs.com"
-        BRANCH_NAME=$GITHUB_REF_NAME
+        
         declare -A APP_NAMES
         APP_NAMES=(
           ["app-one"]="one"
@@ -37,8 +39,8 @@ jobs:
 
     - name: Print ENV
       run: |
-        echo "REGION_ID=$REGION_ID"
-        echo "REGISTRY=$REGISTRY"
+        echo "REGION_ID=${env.REGION_ID}"
+        echo "REGISTRY=${env.REGISTRY}"
         echo "BRANCH_NAME=${env.BRANCH_NAME}"
         echo "APP_DIR=${env.APP_DIR}"
         echo "APP_NAME=${env.APP_NAME}"
