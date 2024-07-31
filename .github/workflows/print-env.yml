@@ -17,11 +17,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set environment variables
-      run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+    - run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
-    - name: Print environment
-      run: |
-        echo "hello world"
+    - run: |
+        echo $REGION_ID
         echo "fucking work"
     
