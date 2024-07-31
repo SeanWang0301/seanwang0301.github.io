@@ -8,11 +8,6 @@ on:
 env: 
   BRANCH_NAME: $GITHUB_REF_NAME
 
-on:
-  push:
-    branches:
-      - 'production/app-one'
-
 jobs:
   build:
     runs-on: ubuntu-latest
