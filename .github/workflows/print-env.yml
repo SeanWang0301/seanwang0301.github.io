@@ -17,22 +17,15 @@ jobs:
     - name: Set up Env
       id: set_env
       run: |
-        # Define directory mappings
-
-        
         declare -A APP_NAMES
         APP_NAMES=(
           ["app-one"]="one"
           ["app-two"]="two"
         )
 
-        # Extract APP_DIR from BRANCH_NAME
         APP_DIR=${BRANCH_NAME#*/}
-
-        # Get APP_NAME based on APP_DIR
         APP_NAME=${APP_NAMES[$APP_DIR]}
 
-        # Export variables to GitHub Actions environment
         echo "REGION_ID=${REGION_ID}" >> $GITHUB_ENV
         echo "REGISTRY=${REGISTRY}" >> $GITHUB_ENV
         echo "APP_DIR=${APP_DIR}" >> $GITHUB_ENV
