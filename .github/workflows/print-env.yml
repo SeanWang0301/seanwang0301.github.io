@@ -11,7 +11,6 @@ jobs:
 
     steps:
     - name: Set up Env
-      id: set_env
       run: |
         # Extract branch name
         BRANCH_NAME=${GITHUB_REF##*/}
