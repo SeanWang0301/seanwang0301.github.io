@@ -23,5 +23,5 @@ jobs:
     - name: Print ENV
       run: |
         echo "${REGION_ID}"
-        echo "fucking work"
+        echo $BRANCH_NAME
     
