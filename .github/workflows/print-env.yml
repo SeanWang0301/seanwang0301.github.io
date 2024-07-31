@@ -6,6 +6,8 @@ on:
       - production/app-one
 env:
   BRANCH_NAME: $GITHUB_REF_NAME
+  REGION_ID: cn-shanghai
+  REGISTRY: registry.cn-shanghai.aliyuncs.com
 
 jobs:
   build:
@@ -16,8 +18,7 @@ jobs:
       id: set_env
       run: |
         # Define directory mappings
-        REGION_ID="cn-shanghai"
-        REGISTRY="registry.cn-shanghai.aliyuncs.com"
+
         
         declare -A APP_NAMES
         APP_NAMES=(
