@@ -22,6 +22,6 @@ jobs:
 
     - name: Print environment
       run: |
-        echo "REGION_ID = $REGION_ID"
+        echo "REGION_ID = ${REGION_ID}"
         echo "BRANCH_NAME= ${env.BRANCH_NAME}"
         
