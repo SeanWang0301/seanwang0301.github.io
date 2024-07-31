@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - 'production/app-one'
+env:
+  REGION_ID: cn-shanghai
+  REGISTRY: registry.cn-shanghai.aliyuncs.com
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        app: [{ dir: apps/app-one-folder, name: app-one },
+        { dir: apps/app-two-folder, name: app-one }]
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set environment variables
+      run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+    - name: Print environment
+      run: |
+        echo "env.REGION_ID = ${env.REGION_ID}"
+        echo "REGION_ID = $REGION_ID"
+        echo "env.BRANCH_NAME= ${env.BRANCH_NAME}"
+        
