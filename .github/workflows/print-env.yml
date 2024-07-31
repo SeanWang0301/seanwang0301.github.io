@@ -16,7 +16,7 @@ jobs:
         # Define directory mappings
         REGION_ID="cn-shanghai"
         REGISTRY="registry.cn-shanghai.aliyuncs.com"
-        BRANCH_NAME=${GITHUB_REF_NAME}
+        BRANCH_NAME=$GITHUB_REF_NAME
         declare -A APP_NAMES
         APP_NAMES=(
           ["app-one"]="one"
