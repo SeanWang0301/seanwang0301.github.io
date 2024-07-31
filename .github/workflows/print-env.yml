@@ -7,6 +7,13 @@ on:
 env:
   REGION_ID: cn-shanghai
   REGISTRY: registry.cn-shanghai.aliyuncs.com
+  BRANCH_NAME: $GITHUB_REF_NAME
+  APP_DIR: ${BRANCH_NAME#*/}
+  APP_NAMES: (
+          ["app-one"]="one"
+          ["app-two"]="two"
+  )
+  APP_NAME: ${APP_NAMES[$APP_DIR]}
 
 jobs:
   build:
@@ -25,4 +32,6 @@ jobs:
         echo "${REGION_ID}"
         echo $BRANCH_NAME
         echo $GITHUB_REF_NAME
+        echo $APP_DIR
+        echo $APP_NAME
     
