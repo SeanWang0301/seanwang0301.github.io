@@ -37,7 +37,8 @@ jobs:
 
     - name: Print ENV
       run: |
-        echo "REGION_ID=${env.REGION_ID}"
+        echo "REGION_ID=$REGION_ID"
+        echo "REGISTRY=$REGISTRY"
         echo "BRANCH_NAME=${env.BRANCH_NAME}"
         echo "APP_DIR=${env.APP_DIR}"
         echo "APP_NAME=${env.APP_NAME}"
