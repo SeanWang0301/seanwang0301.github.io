@@ -14,6 +14,8 @@ jobs:
       id: set_env
       run: |
         # Define directory mappings
+        REGION_ID="cn-shanghai"
+        REGISTRY="registry.cn-shanghai.aliyuncs.com"
         BRANCH_NAME=${GITHUB_REF_NAME}
         declare -A APP_NAMES
         APP_NAMES=(
@@ -28,8 +30,8 @@ jobs:
         APP_NAME=${APP_NAMES[$APP_DIR]}
 
         # Export variables to GitHub Actions environment
-        echo "REGION_ID=cn-shanghai" >> $GITHUB_ENV
-        echo "REGISTRY=registry.cn-shanghai.aliyuncs.com" >> $GITHUB_ENV
+        echo "REGION_ID=${REGION_ID}" >> $GITHUB_ENV
+        echo "REGISTRY=${REGISTRY}" >> $GITHUB_ENV
         echo "APP_DIR=${APP_DIR}" >> $GITHUB_ENV
         echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
 
