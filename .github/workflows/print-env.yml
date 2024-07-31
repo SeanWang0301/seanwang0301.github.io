@@ -1,5 +1,10 @@
 name: Deploy
 
+on:
+  push:
+    branches:
+      - production/app-one
+
 env: 
   BRANCH_NAME: $GITHUB_REF_NAME
 
@@ -32,7 +37,6 @@ jobs:
         # Export variables to GitHub Actions environment
         echo "REGION_ID=cn-shanghai" >> $GITHUB_ENV
         echo "REGISTRY=registry.cn-shanghai.aliyuncs.com" >> $GITHUB_ENV
-        echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
         echo "APP_DIR=${APP_DIR}" >> $GITHUB_ENV
         echo "APP_NAME=${APP_NAME}" >> $GITHUB_ENV
 
