@@ -38,8 +38,7 @@ jobs:
 
     - name: Print ENV
       run: |
-        echo "REGION_ID=$REGION_ID"
-        echo "BRANCH_NAME=$BRANCH_NAME"
-        echo "GITHUB_REF_NAME=$github.ref_name"
-        echo "APP_DIR=$APP_DIR"
-        echo "APP_NAME=$APP_NAME"
+        echo "REGION_ID=${env.REGION_ID}"
+        echo "BRANCH_NAME=${env.BRANCH_NAME}"
+        echo "APP_DIR=${env.APP_DIR}"
+        echo "APP_NAME=${env.APP_NAME}"
