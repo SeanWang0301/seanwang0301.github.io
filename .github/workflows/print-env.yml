@@ -21,6 +21,7 @@ jobs:
       run: echo "BRANCH_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
     - name: Print environment
-      run: |-
-        echo "REGION_ID = ${env.REGION_ID}"
+      run: |
+        echo "hello world"
+        echo "fucking work"
     
