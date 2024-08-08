@@ -25,6 +25,7 @@ jobs:
         # Determine APP_DIR and APP_NAME
         APP_DIR=${BRANCH_NAME#*/}
         APP_NAME=${APP_NAMES[$APP_DIR]}
+      
 
         # Export variables to GitHub Actions environment
         echo "REGION_ID=cn-shanghai" >> $GITHUB_ENV

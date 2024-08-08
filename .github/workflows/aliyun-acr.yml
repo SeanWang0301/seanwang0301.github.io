@@ -1,0 +1,65 @@
+name: Deploy to ACR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Alibaba Cloud CLI
+      run: |
+        # Download the Alibaba Cloud CLI
+        curl -o aliyun-cli-linux-amd64.tgz https://aliyuncli.alicdn.com/aliyun-cli-linux-amd64.tgz
+        
+        # Extract the CLI
+        tar -zxvf aliyun-cli-linux-amd64.tgz
+        
+        # Move the CLI to a location in PATH
+        sudo mv aliyun /usr/local/bin/
+
+        # Verify installation
+        aliyun --version
+
+    - name: Configure Alibaba Cloud CLI
+      run: |
+        # Configure Alibaba Cloud CLI with your credentials
+        aliyun configure set --access-key-id ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }} \
+                              --access-key-secret ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }} \
+                              --region cn-hangzhou
+
+    - name: Get Latest Tag
+      id: get_tag
+      run: |
+        # List tags and get the latest one
+        LATEST_TAG=$(aliyun acr describe-tags --repository-name <your-repository-name> --region cn-hangzhou \
+                      | jq -r '.Tags | sort_by(.CreatedTime) | last | .Tag')
+        
+        # Check if LATEST_TAG is empty
+        if [ -z "$LATEST_TAG" ]; then
+          echo "No tags found"
+          exit 1
+        fi
+
+        echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+
+    - name: Log in to Alibaba Cloud ACR
+      run: |
+        # Log in to Alibaba Cloud ACR
+        echo ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_SECRET }} | docker login --username ${{ secrets.ALIBABA_CLOUD_ACCESS_KEY_ID }} --password-stdin registry.cn-hangzhou.aliyuncs.com
+
+    - name: Pull Latest Image
+      run: |
+        # Pull the latest image using Docker
+        docker pull registry.cn-hangzhou.aliyuncs.com/<your-repository-name>:$LATEST_TAG
+
+    - name: Verify Image
+      run: |
+        # Verify that the image was pulled successfully
+        docker images | grep registry.cn-hangzhou.aliyuncs.com/<your-repository-name>
