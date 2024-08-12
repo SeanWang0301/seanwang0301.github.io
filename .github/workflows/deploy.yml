@@ -1,0 +1,91 @@
+name: Deploy to AliCloud Staging
+
+on:
+  schedule:
+    # Runs every Sunday at midnight UTC
+    - cron: '0 0 * * 0'
+
+  push:
+    branches:
+      - development
+
+env:
+  REGION_ID: cn-shanghai
+  REGISTRY: registry.cn-shanghai.aliyuncs.com
+  NAMESPACE: netilion-china
+  TAG: ${{ github.sha }}
+  ACK_CLUSTER_ID: ce1d89e1ffb644a42ad94a226e5e8aa52
+  DOCKERFILE_NAME: Dockerfile.china
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        app: [{ dir: apps/for-fun-one, name: app-one },
+              { dir: apps/for-fun-two, name: app-two },
+              { dir: apps/for-fun-three, name: app-three }]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Tag
+        run: echo "TAG=$(date -u +'%Y%m%d')" >> $GITHUB_ENV
+      - name: Check Schedule
+        run: |
+          start_date = "20270808"
+          current_date = $(date -u + '%Y%m%d')
+          days_since_start=$(( ($(date -d $current_date +%s) - $(date -d $start_date +%s)) / 86400 ))
+          if [ $((days_since_start %14)) -eq 0]; then
+            echo "Proceed with the job."
+            echo "RUN_JOB=true" >> $GITHUB_ENV
+          else
+            echo "Skip this run"
+            echo "RUN_JOB=false" >> $GITHUB_ENV
+          fi
+      - name: RUN JOB
+        if: env.RUN_JOB == 'true'
+        run: echo "This job runs once every two weeks"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to ACR with the AccessKey pair
+        uses: aliyun/acr-login@v1
+        with:
+          region-id: "$REGION_ID"
+          access-key-id: "${{ secrets.ALIYUN_ACCESS_KEY_ID }}"
+          access-key-secret: "${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}"
+
+    
+      - name: Build and push images to ACR
+        run: |
+          docker build -f $DOCKERFILE_NAME --tag "$REGISTRY/$NAMESPACE/${{ matrix.app.name }}:$TAG" --build-arg APP_DIR=${{ matrix.app.dir }} .
+          docker push "$REGISTRY/$NAMESPACE/${{ matrix.app.name }}:$TAG"
+
+      - name: Scan images in ACR
+        uses: aliyun/acr-scan@v1
+        with:
+          region-id: "$REGION_ID"
+          access-key-id: "${{ secrets.ALIYUN_ACCESS_KEY_ID }}"
+          access-key-secret: "${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}"
+          repository: "$REGISTRY/$NAMESPACE/${{ matrix.app.name }}"
+          tag: "$TAG"
+
+      - name: Set K8s context
+        uses: aliyun/ack-set-context@v1
+        with:
+          access-key-id: "${{ secrets.ALIYUN_ACCESS_KEY_ID }}"
+          access-key-secret: "${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}"
+          cluster-id: "$ACK_CLUSTER_ID"
+
+      - name: Set up Helm
+        run: |-
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+
+      - name: Deploy to Staging environment
+        run: |-
+            echo "Deploying ${{ matrix.app.name }} to Staging"
+            helm upgrade --install --recreate-pods --force --reset-values --set image.repository=$REGISTRY/$NAMESPACE/$IMAGE,image.tag=$TAG ${{ matrix.app.name }} ./apps/${{ matrix.app.dir }}/.k8s
+        working-directory: ./apps/${{ matrix.app.dir }}/.k8s
