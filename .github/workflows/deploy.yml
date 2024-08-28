@@ -32,7 +32,7 @@ jobs:
         run: echo "TAG=$(date -u +'%Y%m%d')" >> $GITHUB_ENV
       - name: Check Schedule
         run: |
-          start_date = "20270808"
+          start_date = "20270806"
           current_date = $(date -u + '%Y%m%d')
           days_since_start=$(( ($(date -d $current_date +%s) - $(date -d $start_date +%s)) / 86400 ))
           if [ $((days_since_start %14)) -eq 0]; then
@@ -42,6 +42,14 @@ jobs:
             echo "Skip this run"
             echo "RUN_JOB=false" >> $GITHUB_ENV
           fi
+
+          if [[ "${GITHUB_REF##*/}" == "development" ]]; then
+            echo "RUN_JOB=true" >> $GITHUB_ENV
+          else
+            echo "Staging deployments are only run on the development branch"
+            echo "RUN_JOB=false" >> $GITHUB_ENV
+          fi
+
       - name: RUN JOB
         if: env.RUN_JOB == 'true'
         run: echo "This job runs once every two weeks"
